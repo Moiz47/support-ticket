@@ -1,0 +1,54 @@
+service: jira-service-request-api
+frameworkVersion: '3'
+useDotenv: true
+provider:
+  name: aws
+  runtime: nodejs20.x
+  stage: ${opt:stage, 'dev'}
+  region: ${opt:region, 'ap-southeast-1'}
+  memorySize: 256
+  timeout: 30
+  logRetentionInDays: 14
+  environment:
+    NODE_ENV: ${self:provider.stage}
+    JIRA_BASE_URL: ${env:JIRA_BASE_URL}
+    JIRA_SERVICE_DESK_ID: ${env:JIRA_SERVICE_DESK_ID}
+    JIRA_API_TOKEN: ${env:JIRA_API_TOKEN}
+    JIRA_USER_EMAIL: ${env:JIRA_USER_EMAIL}
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - logs:CreateLogGroup
+            - logs:CreateLogStream
+            - logs:PutLogEvents
+          Resource: '*'
+
+functions:
+  createServiceRequest:
+    handler: src/handlers/serviceRequest.createServiceRequest
+    events:
+      - http:
+          path: /service-request
+          method: post
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+            allowCredentials: false
+
+plugins:
+  - serverless-plugin-typescript
+  - serverless-offline
+  - serverless-dotenv-plugin
+
+custom:
+  serverless-offline:
+    httpPort: 3000
+    host: 0.0.0.0

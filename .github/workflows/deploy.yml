@@ -1,0 +1,110 @@
+# name: Deploy to AWS Lambda
+
+# on:
+#   push:
+#     branches: [main]
+#   pull_request:
+#     branches: [main]
+
+# env:
+#   NODE_VERSION: '18.x'
+
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v4
+
+#       - name: Setup Node.js
+#         uses: actions/setup-node@v4
+#         with:
+#           node-version: ${{ env.NODE_VERSION }}
+#           cache: 'npm'
+
+#       - name: Install dependencies
+#         run: npm ci
+
+#       - name: Run linting
+#         run: npm run lint
+
+#       - name: Build TypeScript
+#         run: npm run build
+
+#   deploy-dev:
+#     needs: build
+#     runs-on: ubuntu-latest
+#     if: github.event_name == 'pull_request'
+#     environment: dev
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v4
+
+#       - name: Setup Node.js
+#         uses: actions/setup-node@v4
+#         with:
+#           node-version: ${{ env.NODE_VERSION }}
+#           cache: 'npm'
+
+#       - name: Install dependencies
+#         run: npm ci
+
+#       - name: Configure AWS credentials
+#         uses: aws-actions/configure-aws-credentials@v4
+#         with:
+#           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#           aws-region: ${{ secrets.AWS_REGION }}
+
+#       - name: Deploy to dev
+#         run: npm run deploy -- --stage dev
+#         env:
+#           JIRA_BASE_URL: ${{ secrets.DEV_JIRA_BASE_URL }}
+#           JIRA_SERVICE_DESK_ID: ${{ secrets.DEV_JIRA_SERVICE_DESK_ID }}
+#           JIRA_API_TOKEN: ${{ secrets.DEV_JIRA_API_TOKEN }}
+#           JIRA_USER_EMAIL: ${{ secrets.DEV_JIRA_USER_EMAIL }}
+
+#   deploy-prod:
+#     needs: build
+#     runs-on: ubuntu-latest
+#     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+#     environment: production
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v4
+
+#       - name: Setup Node.js
+#         uses: actions/setup-node@v4
+#         with:
+#           node-version: ${{ env.NODE_VERSION }}
+#           cache: 'npm'
+
+#       - name: Install dependencies
+#         run: npm ci
+
+#       - name: Configure AWS credentials
+#         uses: aws-actions/configure-aws-credentials@v4
+#         with:
+#           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#           aws-region: ${{ secrets.AWS_REGION }}
+
+#       - name: Deploy to production
+#         run: npm run deploy:prod
+#         env:
+#           JIRA_BASE_URL: ${{ secrets.PROD_JIRA_BASE_URL }}
+#           JIRA_SERVICE_DESK_ID: ${{ secrets.PROD_JIRA_SERVICE_DESK_ID }}
+#           JIRA_API_TOKEN: ${{ secrets.PROD_JIRA_API_TOKEN }}
+#           JIRA_USER_EMAIL: ${{ secrets.PROD_JIRA_USER_EMAIL }}
+
+#       - name: Notify deployment success
+#         if: success()
+#         run: |
+#           echo "🎉 Production deployment successful!"
+#           echo "API endpoints are now live."
+
+#       - name: Notify deployment failure
+#         if: failure()
+#         run: |
+#           echo "❌ Production deployment failed!"
+#           echo "Please check the logs and fix any issues."
