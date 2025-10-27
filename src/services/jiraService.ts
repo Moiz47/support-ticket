@@ -22,11 +22,24 @@ export class JiraService {
 
   constructor() {
     const env = process.env as unknown as EnvironmentVariables;
+    
+    // Debug logging
+    console.log('Environment variables check:');
+    console.log('JIRA_BASE_URL:', env.JIRA_BASE_URL ? 'SET' : 'MISSING');
+    console.log('JIRA_SERVICE_DESK_ID:', env.JIRA_SERVICE_DESK_ID ? 'SET' : 'MISSING');
+    console.log('JIRA_REQUEST_TYPE_ID:', env.JIRA_REQUEST_TYPE_ID ? 'SET' : 'MISSING');
+    console.log('JIRA_API_TOKEN:', env.JIRA_API_TOKEN ? 'SET' : 'MISSING');
+    console.log('JIRA_USER_EMAIL:', env.JIRA_USER_EMAIL ? 'SET' : 'MISSING');
+    
     this.baseUrl = env.JIRA_BASE_URL;
     this.serviceDeskId = env.JIRA_SERVICE_DESK_ID;
     this.requestTypeId = env.JIRA_REQUEST_TYPE_ID;
     this.apiToken = env.JIRA_API_TOKEN;
     this.userEmail = env.JIRA_USER_EMAIL;
+
+    if (!this.baseUrl) {
+      throw new Error('JIRA_BASE_URL environment variable is required');
+    }
   }
 
   private getAuthHeaders(): Record<string, string> {
