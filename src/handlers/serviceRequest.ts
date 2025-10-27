@@ -30,8 +30,19 @@ const createServiceRequestHandler = async (
     let attachments: any[] = [];
 
     if (event.body && typeof event.body === 'object' && !Buffer.isBuffer(event.body)) {
-      const { summary, description, email, platform, attachments: files } = event.body;
-      
+      const { summary, description, email, attachments: files } = event.body;
+      let platform = event.body.platform;
+  
+      if (platform) {
+        try {
+          platform = JSON.parse(platform);
+        } catch {
+          return errorResponse(
+            'Incorrect form data', 
+            400, 
+          );
+        }
+      }
       requestBody = { summary, description, email, platform };
       
       if(files){
@@ -52,7 +63,6 @@ const createServiceRequestHandler = async (
     }
 
     const jiraService = new JiraService();
-    
     // Create the service request first
     const jiraResponse = await jiraService.createServiceRequest(requestBody);
     
