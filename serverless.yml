@@ -15,6 +15,7 @@ provider:
     JIRA_SERVICE_DESK_ID: ${env:JIRA_SERVICE_DESK_ID}
     JIRA_API_TOKEN: ${env:JIRA_API_TOKEN}
     JIRA_USER_EMAIL: ${env:JIRA_USER_EMAIL}
+    JIRA_REQUEST_TYPE_ID: ${env:JIRA_REQUEST_TYPE_ID}
   iam:
     role:
       statements:
