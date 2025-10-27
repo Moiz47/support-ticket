@@ -63,3 +63,4 @@ jobs:
           JIRA_SERVICE_DESK_ID: ${{ secrets.JIRA_SERVICE_DESK_ID }}
           JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
           JIRA_USER_EMAIL: ${{ secrets.JIRA_USER_EMAIL }}
+          JIRA_REQUEST_TYPE_ID: ${{ secrets.JIRA_REQUEST_TYPE_ID }}
