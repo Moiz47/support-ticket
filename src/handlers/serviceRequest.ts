@@ -56,13 +56,13 @@ const createServiceRequestHandler = async (
     // Create the service request first
     const jiraResponse = await jiraService.createServiceRequest(requestBody);
     
-    // if (attachments.length > 0) {
-    //   try {
-    //     await jiraService.addAttachments(jiraResponse.issueKey, attachments);
-    //   } catch (attachmentError) {
-    //     console.error('Attachment upload error:', attachmentError);
-    //   }
-    // }
+    if (attachments.length > 0) {
+      try {
+        await jiraService.addAttachments(jiraResponse.issueKey, attachments);
+      } catch (attachmentError) {
+        console.error('Attachment upload error:', attachmentError);
+      }
+    }
         
     return successResponse({
       message: 'Service request created successfully',
