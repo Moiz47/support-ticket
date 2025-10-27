@@ -25,17 +25,20 @@ const createServiceRequestHandler = async (
       );
     }
             
+    console.log("atleast coming here?")
     let requestBody: CreateServiceRequestRequest;
     let attachments: any[] = [];
 
     if (event.body && typeof event.body === 'object' && !Buffer.isBuffer(event.body)) {
-      const { summary, description, email, platform, ...files } = event.body;
+      const { summary, description, email, platform, attachments: files } = event.body;
       
       requestBody = { summary, description, email, platform };
       
-      attachments = Object.values(files.attachments).filter((value: any) => 
-        value && typeof value === 'object' && value.content
-      );
+      if(files){
+        attachments = Object.values(files).filter((value: any) => 
+          value && typeof value === 'object' && value.content
+        );
+      }
       
       if (!requestBody.summary || !requestBody.description || !requestBody.email) {
         return errorResponse('Missing required fields: summary, description, email', 400, 'MISSING_FIELDS');
