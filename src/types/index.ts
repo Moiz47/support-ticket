@@ -7,7 +7,7 @@ export interface JiraServiceRequestPayload {
   requestFieldValues: {
     summary: string;
     description: string;
-    platform?: string;
+    customfield_10058?: Record<string, unknown>[];
     attachments?: string[];
   };
 }
@@ -29,7 +29,7 @@ export interface CreateServiceRequestRequest {
   email: string;
   summary: string;
   description: string;
-  platform?: string;
+  platform?: Record<string, unknown>[];
   attachments?: string[];
 }
 
