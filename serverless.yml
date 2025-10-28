@@ -9,6 +9,8 @@ provider:
   memorySize: 256
   timeout: 30
   logRetentionInDays: 14
+  apiGateway:
+    endpointType: REGIONAL
   environment:
     NODE_ENV: ${self:provider.stage}
     JIRA_BASE_URL: ${env:JIRA_BASE_URL}
