@@ -7,8 +7,8 @@ export interface JiraServiceRequestPayload {
   requestFieldValues: {
     summary: string;
     description: string;
-    customfield_10058?: Record<string, unknown>[];
     attachments?: string[];
+    [key: string]: any; // Required if we are adding custom fields
   };
 }
 

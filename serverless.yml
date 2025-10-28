@@ -16,6 +16,7 @@ provider:
     JIRA_API_TOKEN: ${env:JIRA_API_TOKEN}
     JIRA_USER_EMAIL: ${env:JIRA_USER_EMAIL}
     JIRA_REQUEST_TYPE_ID: ${env:JIRA_REQUEST_TYPE_ID}
+    JIRA_PLATFORM_FIELD: ${env:JIRA_PLATFORM_FIELD, 'customfield_10058'}
   iam:
     role:
       statements:
