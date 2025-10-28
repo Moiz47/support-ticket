@@ -64,7 +64,9 @@ export class JiraService {
       requestFieldValues: {
         summary: request.summary,
         description: request.description,
-        customfield_10058: request.platform,
+        ...(request.platform && { 
+          [process.env.JIRA_PLATFORM_FIELD || 'customfield_10058']: request.platform 
+        }),
       },
     };
 

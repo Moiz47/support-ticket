@@ -14,7 +14,6 @@ const createServiceRequestHandler = async (
   _context: Context
 ): Promise<APIGatewayProxyResult> => {
   try {
-    // Validate Content-Type header
     const contentType = event.headers['Content-Type'] || event.headers['content-type'] || '';
     
     if (!contentType.includes('multipart/form-data')) {
@@ -25,7 +24,6 @@ const createServiceRequestHandler = async (
       );
     }
             
-    console.log("atleast coming here?")
     let requestBody: CreateServiceRequestRequest;
     let attachments: any[] = [];
 
