@@ -54,6 +54,13 @@ export class JiraService {
     };
   }
 
+  private formatSummaryWithEnvironment(summary: string): string {
+    const stage = process.env.STAGE || process.env.NODE_ENV || 'dev';
+    console.log("🚀 ~ JiraService ~ formatSummaryWithEnvironment ~ process.env.NODE_ENV:", process.env.NODE_ENV)
+    console.log("🚀 ~ JiraService ~ formatSummaryWithEnvironment ~ process.env.STAGE:", process.env.STAGE)
+    return `${stage.toUpperCase()} ${summary}`;
+  }
+
   async createServiceRequest(
     request: CreateServiceRequestRequest
   ): Promise<JiraServiceRequestResponse> {
@@ -62,7 +69,7 @@ export class JiraService {
       requestTypeId: this.requestTypeId,
       raiseOnBehalfOf: request.email,
       requestFieldValues: {
-        summary: request.summary,
+        summary: this.formatSummaryWithEnvironment(request.summary),
         description: request.description,
         ...(request.platform && { 
           [process.env.JIRA_PLATFORM_FIELD || 'customfield_10058']: request.platform 
