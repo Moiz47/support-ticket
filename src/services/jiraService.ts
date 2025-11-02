@@ -55,10 +55,10 @@ export class JiraService {
   }
 
   private formatSummaryWithEnvironment(summary: string): string {
-    const stage = process.env.STAGE || process.env.NODE_ENV || 'dev';
+    const stage = process.env.STAGE || 'dev';
     console.log("🚀 ~ JiraService ~ formatSummaryWithEnvironment ~ process.env.NODE_ENV:", process.env.NODE_ENV)
     console.log("🚀 ~ JiraService ~ formatSummaryWithEnvironment ~ process.env.STAGE:", process.env.STAGE)
-    return `${stage.toUpperCase()} ${summary}`;
+    return `[${stage.toUpperCase()}] ${summary}`;
   }
 
   async createServiceRequest(
@@ -76,7 +76,7 @@ export class JiraService {
         }),
       },
     };
-
+    console.log("🚀 ~ JiraService ~ createServiceRequest ~ payload:", payload)
     try {
       const response: AxiosResponse<JiraServiceRequestResponse> =
         await axios.post(
