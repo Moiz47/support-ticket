@@ -12,6 +12,7 @@ provider:
   endpointType: REGIONAL
   environment:
     NODE_ENV: ${self:provider.stage}
+    STAGE: ${self:provider.stage} 
     JIRA_BASE_URL: ${env:JIRA_BASE_URL}
     JIRA_SERVICE_DESK_ID: ${env:JIRA_SERVICE_DESK_ID}
     JIRA_API_TOKEN: ${env:JIRA_API_TOKEN}
